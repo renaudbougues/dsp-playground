@@ -1,2 +1,5 @@
-# dsp-playground
-basic dsp implementations
+#DSP Playground
+Basic dsp implementations (mostly on audio signals)
+- FFT / IFFT
+- Harmonic analysis algorithms
+- Filters
