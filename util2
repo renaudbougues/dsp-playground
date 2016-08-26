@@ -19,5 +19,36 @@ def minimizeEnergySpreadDFT(x, fs, f1, f2):
     
     X = fft(x, M)
     XdB = 20 * np.log10(np.absolute(X))
-    mx = XdB[:(M/2)+1]
-    return mx
+    mX = XdB[:(M/2)+1]
+    return mX
+
+def optimalZeropad(x, fs, f):
+    """
+    Inputs:
+        x (numpy array) = input signal of length M
+        fs (float) = sampling frequency in Hz
+        f (float) = frequency of the sinusoid in Hz
+    Output:
+        The positive half of the DFT spectrum of the N point DFT after zero-padding 
+        x appropriately (zero-padding length to be computed). mX is (N/2)+1 samples long
+    """
+    M = len(x)
+    m = fs/f
+    N = (np.floor(M/m)+1) * m
+    print N
+    X = np.absolute(fft(x, N))
+    low_Xs = X < np.exp(-6)
+    X[low_Xs] = 0
+    mX = 20.0 * np.log10(X)
+    return mX
+
+'''
+Example
+import numpy as np
+import matplotlib.pyplot as plt
+x = genSine(1, 250.0, 0, 10000.0, 210.0/10000)
+mx = optimalZeropad(x,10000,250)
+n= np.arange(len(mx))
+plt.plot(n, mx)
+plt.show()
+'''
